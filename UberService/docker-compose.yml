@@ -1,0 +1,42 @@
+services:
+  traefik:
+    image: traefik:v2.10
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=true
+      - --entryPoints.web.address=:8082
+      - --api.insecure=true
+    ports:
+      - "8082:8082"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - commonnet
+
+  uber-service:
+    image: uber:1.0
+    environment:
+      - MAP_SERVICE_URL=http://map-service:8081
+    depends_on:
+      - map-service
+    expose:
+      - "8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.uber.rule=Host(`localhost`) && PathPrefix(`/uber`)"
+      - "traefik.http.routers.uber.entrypoints=web"
+      - "traefik.http.routers.uber.service=uber"
+      - "traefik.http.services.uber.loadbalancer.server.port=8080"
+    networks:
+      - commonnet
+
+  map-service:
+    image: map:1.0
+    ports:
+      - "8081:8081"
+    networks:
+      - commonnet
+
+networks:
+  commonnet:
+    driver: bridge
