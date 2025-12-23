@@ -14,7 +14,9 @@ services:
       - commonnet
 
   uber-service:
-    image: uber:1.0
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
       - MAP_SERVICE_URL=http://map-service:8081
     depends_on:
@@ -31,7 +33,9 @@ services:
       - commonnet
 
   map-service:
-    image: map:1.0
+    build:
+      context: ../MapService
+      dockerfile: Dockerfile
     ports:
       - "8081:8081"
     networks:

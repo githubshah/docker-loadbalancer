@@ -10,7 +10,7 @@ import java.util.Map;
 @RestController
 public class MapNavigationController {
 
-    @GetMapping("/v2/location")
+    @GetMapping("/v1/location")
     public String getRiderLocation(@RequestParam("riderId") String riderId) {
 
         Map<String, String> location = new HashMap<>();

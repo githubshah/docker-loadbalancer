@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
 import java.net.InetAddress;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class UberController {
@@ -39,29 +41,20 @@ public class UberController {
         return "ok - instance:" + instanceId;
     }
 
-    @GetMapping("/v1/location")
-    public String getV1RiderLocation(@RequestParam("riderId") String riderId) {
-        log.info("v1 location api called " + LocalDateTime.now());
-
-        String BASE_URL = "http://localhost:8081";
-        String URI = "/map/v2/location";
-        String url = BASE_URL + URI + "?riderId=" + riderId;
-
-        String resp = restTemplate.getForObject(url, String.class);
-        return "instance:" + instanceId + " -> " + resp;
-    }
-
-    @GetMapping("/v3/location")
-    public String getV1RiderLocationV3(@RequestParam("riderId") String riderId) {
-        log.info("v1 location api called " + LocalDateTime.now());
-
+    @GetMapping("/v1/rider/info")
+    public Map<String, String> getV1RiderLocationV3(@RequestParam("riderId") String riderId) {
+        log.info("location api called on instance: {} on time {}", instanceId, LocalDateTime.now());
 
         String BASE_URL = "http://map-service:8081";
-        String URI = "/map/v2/location";
+        String URI = "/map/v1/location";
         String url = BASE_URL + URI + "?riderId=" + riderId;
 
         String resp = restTemplate.getForObject(url, String.class);
-        return "instance:" + instanceId + " -> " + resp;
+        HashMap<String, String> objectObjectHashMap = new HashMap<>();
+        objectObjectHashMap.put("riderId", riderId);
+        objectObjectHashMap.put("location", resp);
+        objectObjectHashMap.put("instnace", instanceId);
+        return objectObjectHashMap;
     }
 
     @GetMapping("/instance")
