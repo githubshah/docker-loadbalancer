@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
         - name: map-container
-          image: map:1.0
+          image: map:1.1
+          imagePullPolicy: Never  # or IfNotPresent
           ports:
             - containerPort: 8081
 ---
@@ -27,7 +28,7 @@ metadata:
   name: map-service
   namespace: test # Added this to match the Deployment
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: map-app
   ports:
