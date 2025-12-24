@@ -28,11 +28,10 @@ metadata:
   name: map-service
   namespace: test # Added this to match the Deployment
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: map-app
   ports:
     - protocol: TCP
       port: 80
       targetPort: 8081
-      nodePort: 30081
