@@ -10,6 +10,11 @@ import java.util.Map;
 @RestController
 public class MapNavigationController {
 
+    @GetMapping
+    public String getRiderLocation() {
+        return "ok";
+    }
+
     @GetMapping("/v1/location")
     public String getRiderLocation(@RequestParam("riderId") String riderId) {
 
