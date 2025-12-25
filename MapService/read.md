@@ -20,5 +20,4 @@ Redeploy deployment 'kubectl delete deployment map-deployment -n test'
 Redeploy deployment 'kubectl apply deployment map-deployment -n test'
 
 If All good then test app
-Kubectl get pods -n test
-kubectl port-forward pod/map-deployment-86d964948f-4pbhw 8085:8081 -n test
+Kubectl get service -n test
