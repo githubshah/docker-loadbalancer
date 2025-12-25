@@ -23,3 +23,13 @@ spec:
                 name: kubernetes-dashboard
                 port:
                   number: 443
+    - host: "map-app-service.com"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: map-service
+                port:
+                  number: 80
