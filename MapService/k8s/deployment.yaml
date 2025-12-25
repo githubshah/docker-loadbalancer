@@ -4,7 +4,7 @@ metadata:
   name: map-deployment
   namespace: test
   labels:
-    app: map-app-2
+    app: map-app
 spec:
   replicas: 1
   selector:
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: map-container
-          image: map:1.1
+          image: map:1.0
           imagePullPolicy: Never  # or IfNotPresent
           ports:
             - containerPort: 8081

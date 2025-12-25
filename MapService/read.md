@@ -21,3 +21,6 @@ Redeploy deployment 'kubectl apply deployment map-deployment -n test'
 
 If All good then test app
 Kubectl get service -n test
+
+GET access to service
+minikube service map-service -n test
