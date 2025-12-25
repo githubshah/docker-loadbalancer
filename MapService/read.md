@@ -21,3 +21,7 @@ Redeploy deployment 'kubectl apply deployment map-deployment -n test'
 
 If All good then test app
 Kubectl get service -n test
+
+kubectl get endpoints map-service -n test
+in this case localhost bind with the node port
+http://localhost:30081/map
