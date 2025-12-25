@@ -4,7 +4,7 @@ metadata:
   name: map-deployment
   namespace: kubernetes-dashboard
   labels:
-    app: map-app-2
+    app: map-app
 spec:
   replicas: 1
   selector:
@@ -18,7 +18,6 @@ spec:
       containers:
         - name: map-container
           image: map:1.9
-          imagePullPolicy: Never  # or IfNotPresent
           ports:
             - containerPort: 8081
 ---
