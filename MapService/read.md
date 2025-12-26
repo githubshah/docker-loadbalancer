@@ -2,58 +2,22 @@ minikube delete --all --purge
 
 minikube start --memory=4096 --cpus=2
 
-Create Ingress Controller
-minikube addons enable ingress
+# Add the repository
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
 
-install kubernetes dashboard service
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+# Install the stack into a 'monitoring' namespace
+helm install my-prometheus prometheus-community/kube-prometheus-stack \
+--create-namespace \
+--namespace monitoring
 
-kubectl apply -f dashboard-admin.yaml -n kubernetes-dashboard
-kubectl port-forward kubernetes-dashboard-8696f5f494-dxjp2 8443 -n kubernetes-dashboard
+kubectl port-forward svc/my-prometheus-grafana 3000:80 -n monitoring
 
-// get token for login
-kubectl -n kubernetes-dashboard create token admin-user
+kubectl port-forward svc/my-prometheus-kube-prometheus-prometheus 9090:9090 -n monitoring
 
-kubectl apply -f dashboard-ingress.yaml
+for open node port service
+kubectl patch svc my-prometheus-grafana -n monitoring -p '{"spec": {"type": "NodePort"}}'
 
-kubectl get ingress -n kubernetes-dashboard
-
-echo 127.0.0.1 mydashboard.com | sudo tee -a /etc/hosts
-
-access app via 
-mydashboard.com
-
-
-
-
-
-
-
-
-
-
-
-docker build -t map:1.0 .
-Confirm docker images
-
-kubectl apply -f namespace.yaml
-Confirm kubectl get namespace
-
-kubectl apply -f deployment.yaml
-Confirm kubectl get deployment -n test
-
-check pods up and running 'kubectl get pods -n test'
-if facing ImagePullBackOff error
-make sure image with tag should be present ‘docker images’
-minikube image load map:1.0 --overwrite
-containers:
-- name: map-container
-  image: map:1.0
-  imagePullPolicy: Never
-
-Redeploy deployment 'kubectl delete deployment map-deployment -n test'
-Redeploy deployment 'kubectl apply deployment map-deployment -n test'
-
-If All good then test app
-Kubectl get pods -n test
-kubectl port-forward pod/map-deployment-86d964948f-4pbhw 8085:8081 -n test
+for getting grafana admin password
+kubectl get secret -n monitoring my-prometheus-grafana -o jsonpath="{.data.admin-user}" | base64 --decode ; echo
+kubectl get secret -n monitoring my-prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
