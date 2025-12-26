@@ -21,3 +21,6 @@ kubectl patch svc my-prometheus-grafana -n monitoring -p '{"spec": {"type": "Nod
 for getting grafana admin password
 kubectl get secret -n monitoring my-prometheus-grafana -o jsonpath="{.data.admin-user}" | base64 --decode ; echo
 kubectl get secret -n monitoring my-prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+![img.png](img.png)
+![img_1.png](img_1.png)

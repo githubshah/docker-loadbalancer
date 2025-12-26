@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: map-container
-          image: map:1.1
+          image: map:2.0
           ports:
             - containerPort: 8081
 ---
@@ -31,11 +31,14 @@ kind: Service
 metadata:
   name: map-service
   namespace: test
+  labels:
+    app: map-app # Make sure this label is here
 spec:
   type: ClusterIP
   selector:
     app: map-app
   ports:
-    - protocol: TCP
+    - name: http-metrics  # Add this name
+      protocol: TCP
       port: 80
       targetPort: 8081
