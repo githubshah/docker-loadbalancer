@@ -11,12 +11,16 @@ helm install my-prometheus prometheus-community/kube-prometheus-stack \
 --create-namespace \
 --namespace monitoring
 
+// to hit the api to create logs
+kubectl get pods -n test 
+kubectl port-forward map-deployment-f4c69769f-cw4j8 8081 -n test
+
 kubectl port-forward svc/my-prometheus-grafana 3000:80 -n monitoring
 
 kubectl port-forward svc/my-prometheus-kube-prometheus-prometheus 9090:9090 -n monitoring
 
-for open node port service
-kubectl patch svc my-prometheus-grafana -n monitoring -p '{"spec": {"type": "NodePort"}}'
+do not run [for open node port service]
+-- kubectl patch svc my-prometheus-grafana -n monitoring -p '{"spec": {"type": "NodePort"}}'
 
 for getting grafana admin password
 kubectl get secret -n monitoring my-prometheus-grafana -o jsonpath="{.data.admin-user}" | base64 --decode ; echo
