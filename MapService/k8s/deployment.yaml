@@ -14,11 +14,6 @@ spec:
     metadata:
       labels:
         app: map-app
-      annotations:
-        # These annotations tell Prometheus to scrape this pod
-        prometheus.io/scrape: "true"
-        prometheus.io/path: "/actuator/prometheus"
-        prometheus.io/port: "8081"
     spec:
       containers:
         - name: map-container
