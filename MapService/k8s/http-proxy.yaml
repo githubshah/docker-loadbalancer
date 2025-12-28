@@ -1,0 +1,14 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: map-proxy
+  namespace: test
+spec:
+  virtualhost:
+    fqdn: mydashboard.com  # Replace with your actual domain
+  routes:
+    - conditions:
+        - prefix: /        # Matches all traffic to this domain
+      services:
+        - name: map-service
+          port: 80         # Matches the 'port' in your Service YAML
