@@ -1,19 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: map-deployment
+  name: map-deployment-v1 # Changed name to include version
   namespace: test
   labels:
     app: map-app
+    version: v1        # Added version label
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: map-app
+      version: v1      # Added version label
   template:
     metadata:
       labels:
         app: map-app
+        version: v1    # Added version label
     spec:
       containers:
         - name: map-container
@@ -29,7 +32,7 @@ metadata:
   labels:
     app: map-app # Make sure this label is here
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: map-app
   ports:
@@ -37,3 +40,4 @@ spec:
       protocol: TCP
       port: 80
       targetPort: 8081
+      nodePort: 30081

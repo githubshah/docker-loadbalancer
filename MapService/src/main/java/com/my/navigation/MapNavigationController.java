@@ -12,16 +12,16 @@ public class MapNavigationController {
 
     @GetMapping
     public String getRiderLocation() {
-        return "ok";
+        return "ok-v2";
     }
 
     @GetMapping("/v1/location")
     public String getRiderLocation(@RequestParam("riderId") String riderId) {
 
         Map<String, String> location = new HashMap<>();
-        location.put("1", "bhongaon");
-        location.put("2", "mainpuri");
-        location.put("3", "delhi");
+        location.put("1", "bhongaon-v2");
+        location.put("2", "mainpuri-v2");
+        location.put("3", "delhi-v2");
 
         return location.get(riderId);
     }

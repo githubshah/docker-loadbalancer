@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: map-deployment-v2
+  namespace: test
+  labels:
+    app: map-app
+    version: v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: map-app
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: map-app
+        version: v2
+    spec:
+      containers:
+        - name: map-container
+          image: map:3.0 # Your new version
+          ports:
+            - containerPort: 8081
