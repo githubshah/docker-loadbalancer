@@ -69,3 +69,12 @@ url: "http://my-prometheus-kube-prometh-prometheus.monitoring.svc.cluster.local:
 
 kubectl rollout restart deployment kiali -n istio-system
 istioctl dashboard kiali -n istio-system
+
+# destination rule vs virtual service
+How they work together
+Usually, you use them in tandem. For example:
+
+VirtualService: "Send 20% of the traffic to the 'experimental' subset."
+
+DestinationRule: "The 'experimental' subset is defined as pods with the label version: v2.0. Also, 
+if any of those pods return a 500 error, stop sending traffic to them for 30 seconds (Circuit Breaker)."

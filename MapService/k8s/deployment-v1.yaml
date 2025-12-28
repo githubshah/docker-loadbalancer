@@ -30,13 +30,13 @@ metadata:
   name: map-service
   namespace: test
   labels:
-    app: map-app # Make sure this label is here
+    app: map-app # Make sure this label is here [prometheus]
 spec:
   type: NodePort
   selector:
     app: map-app
   ports:
-    - name: http-metrics  # Add this name
+    - name: http-metrics  # Add this name for ServiceMonitor compatibility [prometheus]
       protocol: TCP
       port: 80
       targetPort: 8081
