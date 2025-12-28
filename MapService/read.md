@@ -11,9 +11,6 @@ helm install my-prometheus prometheus-community/kube-prometheus-stack \
 --create-namespace \
 --namespace monitoring
 
-# Verify that the Prometheus and Grafana pods are running
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/addons/prometheus.yaml
-
 # Install the istioctl service mesh
 brew install istioctl
 istioctl version
