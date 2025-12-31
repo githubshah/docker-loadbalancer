@@ -1,18 +1,18 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: map-app-monitor
+  name: uber-app-monitor
   namespace: test
   labels:
     release: my-prometheus
 spec:
   selector:
     matchLabels:
-      app: map-app
+      app: uber-app
   namespaceSelector:
     matchNames:
       - test
   endpoints:
-    - port: http-map
+    - port: http-metrics
       path: /actuator/prometheus
       interval: 30s

@@ -38,15 +38,15 @@ public class UberController {
 
     @GetMapping
     public String ok() {
-        return "ok - instance:" + instanceId;
+        return "ok-v1 - instance:" + instanceId;
     }
 
     @GetMapping("/v1/rider/info")
     public Map<String, String> getV1RiderLocationV3(@RequestParam("riderId") String riderId) {
         log.info("location api called on instance: {} on time {}", instanceId, LocalDateTime.now());
 
-        String BASE_URL = "http://map-service:8081";
-        String URI = "/map/v1/location";
+        String BASE_URL = "http://map-service:80";
+        String URI = "/v1/location";
         String url = BASE_URL + URI + "?riderId=" + riderId;
 
         String resp = restTemplate.getForObject(url, String.class);

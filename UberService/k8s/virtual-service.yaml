@@ -1,0 +1,23 @@
+kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: uber-virtualservice
+  namespace: test
+spec:
+  hosts:
+    - uber-service
+  http:
+    - route:
+        - destination:
+            host: uber-service
+            subset: v1
+          weight: 90
+        - destination:
+            host: uber-service
+            subset: v2
+          weight: 10
+      # --- NEW RETRY LOGIC BELOW ---
+      retries:
+        attempts: 3            # Try 3 extra times
+        perTryTimeout: 2s      # Give each try 2 seconds to respond
+        retryOn: 5xx,gateway-error,connect-failure
