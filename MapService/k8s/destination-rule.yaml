@@ -1,19 +1,13 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: map-destination
+  name: map-service-destrule # Use one consistent name
   namespace: test
 spec:
-  host: map-service
+  host: map-service.test.svc.cluster.local
   trafficPolicy:
-    connectionPool:
-      tcp:
-        maxConnections: 100    # Limit connections to prevent overload
-    outlierDetection:          # This is the "Circuit Breaker"
-      consecutive5xxErrors: 5
-      interval: 10s
-      baseEjectionTime: 30s
-      maxEjectionPercent: 100
+    loadBalancer:
+      simple: ROUND_ROBIN # (Optional) Global policy for this host
   subsets:
     - name: v1
       labels:

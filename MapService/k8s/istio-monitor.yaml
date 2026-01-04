@@ -1,17 +1,18 @@
 apiVersion: monitoring.coreos.com/v1
-kind: PodMonitor
+kind: ServiceMonitor
 metadata:
-  name: istio-proxies-monitor
-  namespace: monitoring
+  name: map-app-monitor
+  namespace: test
   labels:
-    release: kube-prometheus-stack # IMPORTANT: This must match your Prometheus selector
+    release: my-prometheus # Ensure this matches your Helm release name
 spec:
   selector:
-    matchExpressions:
-      - {key: istio-prometheus-ignore, operator: DoesNotExist}
-  podMetricsEndpoints:
-    - port: http-envoy-prom   # This is the name for port 15020
-      path: /stats/prometheus
-      interval: 15s
+    matchLabels:
+      app: map-app
   namespaceSelector:
-    any: true # This allows it to look into your "test" namespace
+    matchNames:
+      - test
+  endpoints:
+    - port: http-map # This matches the port name in your Deployment/Service
+      path: /actuator/prometheus
+      interval: 30s

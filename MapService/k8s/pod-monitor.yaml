@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: istio-proxies-monitor
+  namespace: test
+  labels:
+    release: my-prometheus # Must match your prometheus selector
+spec:
+  selector:
+    matchLabels:
+      istio: sidecar # Targets all pods with an Istio sidecar
+  namespaceSelector:
+    matchNames:
+      - test
+  podMetricsEndpoints:
+    - port: http-envoy-prom # Internal name for port 15020
+      path: /stats/prometheus
+      interval: 15s

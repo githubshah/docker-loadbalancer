@@ -10,6 +10,11 @@ spec:
       app: map-app
   template:
     metadata:
+      annotations:
+        # This tells Prometheus to bypass the Service and hit the Pod directly
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/stats/prometheus"
+        prometheus.io/port: "15020"
       labels:
         app: map-app
         version: v1    # Added version label
@@ -39,3 +44,6 @@ spec:
       port: 80
       targetPort: 8081
       nodePort: 30081
+    - name: status-port # Add this for Istio metrics
+      port: 15020
+      targetPort: 15020

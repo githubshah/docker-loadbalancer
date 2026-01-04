@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-server
+  namespace: istio-system
+spec:
+  type: ExternalName
+  externalName: my-prometheus-kube-prometh-prometheus.monitoring.svc.cluster.local

@@ -1,23 +1,25 @@
-kind: VirtualService
 apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
 metadata:
-  name: map-virtualservice
+  name: map-ingress
   namespace: test
 spec:
   hosts:
-    - map-service
+    - "map.com"
+  gateways:
+    - test-gateway
   http:
-    - route:
+    - match:
+        - uri:
+            prefix: /map
+      rewrite:
+        uri: /
+      route:
         - destination:
-            host: map-service
+            host: map-service.test.svc.cluster.local
             subset: v1
           weight: 90
         - destination:
-            host: map-service
+            host: map-service.test.svc.cluster.local
             subset: v2
           weight: 10
-      # --- NEW RETRY LOGIC BELOW ---
-      retries:
-        attempts: 3            # Try 3 extra times
-        perTryTimeout: 2s      # Give each try 2 seconds to respond
-        retryOn: 5xx,gateway-error,connect-failure

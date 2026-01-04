@@ -11,9 +11,6 @@ helm install my-prometheus prometheus-community/kube-prometheus-stack \
 --create-namespace \
 --namespace monitoring
 
-# Install the istioctl service mesh
-brew install istioctl
-istioctl version
 
 # Install Istio into your cluster
 #  Use the demo profile to install the control plane and the necessary CRDs:

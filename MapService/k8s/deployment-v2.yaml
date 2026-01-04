@@ -1,17 +1,15 @@
+# Deployment V2 (Fixed selector to match template labels)
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: map-deployment-v2
   namespace: test
-  labels:
-    app: map-app
-    version: v2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: map-app
-      version: v2
+      app: map-app   # Standardize this
+      version: v2    # Specific to this version
   template:
     metadata:
       labels:
@@ -20,6 +18,7 @@ spec:
     spec:
       containers:
         - name: map-container
-          image: map:3.0 # Your new version
+          image: map:1.0 # Ensure this is your v2 image
           ports:
-            - containerPort: 8081
+            - name: http-map
+              containerPort: 8081

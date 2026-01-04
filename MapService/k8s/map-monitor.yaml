@@ -15,4 +15,7 @@ spec:
   endpoints:
     - port: http-map
       path: /actuator/prometheus
-      interval: 30s
+      interval: 15s
+    - port: status-port # Use the new port name
+      path: /stats/prometheus
+      interval: 15s
